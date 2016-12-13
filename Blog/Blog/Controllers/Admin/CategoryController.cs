@@ -94,5 +94,51 @@ namespace Blog.Controllers.Admin
                 
             return View(category);
         }
+
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var database = new BlogDbContext())
+            {
+                var category = database.Categories
+                    .FirstOrDefault(c => c.Id == id);
+
+                if (category == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(category);
+            }
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            using (var database = new BlogDbContext())
+            {
+                var category = database.Categories
+                    .FirstOrDefault(c => c.Id == id);
+
+                var categoryArticles = category.Articles
+                    .ToList();
+
+                foreach (var article in categoryArticles)
+                {
+                    database.Articles.Remove(article);
+                }
+
+                database.Categories.Remove(category);
+                database.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
