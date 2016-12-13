@@ -41,7 +41,7 @@ namespace Blog.Controllers
                 var article = database.Articles
                     .Where(a => a.Id == id)
                     .Include(a => a.Author)
-                    .First();                
+                    .First();
 
                 if (article == null)
                 {
