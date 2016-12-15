@@ -8,6 +8,8 @@ namespace Blog.Models
 {
     public class ArticleViewModel
     {
+        public string Tags { get; set; }
+
         public int CategoryId { get; set; }
 
         public ICollection<Category> Categories { get; set; }
