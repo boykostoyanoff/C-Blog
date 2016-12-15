@@ -57,13 +57,21 @@ namespace Blog.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            return View();
+            using (var database = new BlogDbContext())
+            {
+                var model = new ArticleViewModel();
+                model.Categories = database.Categories
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+                return View(model);
+            }
         }
 
         
         [HttpPost]
         [Authorize]
-        public ActionResult Create(Article article)
+        public ActionResult Create(ArticleViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +82,7 @@ namespace Blog.Controllers
                         .First()
                         .Id;
 
-                    article.AuthorId = authorId;
+                    var article = new Article(authorId, model.Title, model.Content, model.CategoryId);
 
                     database.Articles.Add(article);
                     database.SaveChanges();
@@ -83,7 +91,7 @@ namespace Blog.Controllers
                 }
             }
 
-            return View(article);
+            return View(model);
         }
 
         [HttpGet]
