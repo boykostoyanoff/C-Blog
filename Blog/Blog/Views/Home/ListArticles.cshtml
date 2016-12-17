@@ -18,6 +18,9 @@
                     <p>
                         @article.Content
                     </p>
+                    <div class="pull-left">
+                        Comments(@article.Comments.Count())
+                    </div>  
                     <footer class="pull-right">
                         <small class="author">
                             --author @article.Author.FullName

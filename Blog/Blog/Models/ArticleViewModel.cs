@@ -8,6 +8,13 @@ namespace Blog.Models
 {
     public class ArticleViewModel
     {
+        public ICollection<Comment> Comments { get; set; }
+
+        public ArticleViewModel()
+        {
+            this.Comments = new HashSet<Comment>();
+        }
+
         public string Tags { get; set; }
 
         public int CategoryId { get; set; }
@@ -24,5 +31,8 @@ namespace Blog.Models
         public string Content { get; set; }
 
         public string AuthorId { get; set; }
+
+        public string NewComment { get; set; }
+
     }
 }

@@ -25,6 +25,9 @@
                                 @Html.ActionLink(tag.Name, "List", "Tag", new { @id = tag.Id }, new { @class = "btn btn-default btn-xs" })
                             }
                         </div>
+                        <div class="pull-left">
+                            Comments(@article.Comments.Count())
+                        </div>
                         <small class="author pull-right">
                             --author @article.Author.FullName
                         </small>

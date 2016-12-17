@@ -42,6 +42,7 @@ namespace Blog.Controllers
                     .Where(a => a.CategoryId == categoryId)
                     .Include(a => a.Author)
                     .Include(a => a.Tags)
+                    .Include(a => a.Comments)
                     .ToList();
 
                 return View(articles);

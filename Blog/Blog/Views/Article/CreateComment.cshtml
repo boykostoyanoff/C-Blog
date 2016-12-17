@@ -1,0 +1,49 @@
+﻿@model Blog.Models.ArticleViewModel
+
+@{
+    ViewBag.Title = "Add Comment";
+}
+
+<div class="container">
+    <div class="well">
+        <h2>Create new comment</h2>
+        @using (Html.BeginForm("CreateComment", "Article", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.AuthorId)
+            @Html.HiddenFor(m => m.CategoryId)
+            @Html.HiddenFor(m => m.Tags)
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Title, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control" , @readonly = "readonly"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Content, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(m => m.Content, new { @class = "form-control", @rows = "7", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.NewComment, new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(m => m.NewComment, new { @class = "form-control", @rows = "7", @placeholder = "Enter Comments here", })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-4">
+                    @Html.ActionLink("Cancel", "Index", "Article", null, new { @class = "btn btn-default" })
+                    <input type="submit" value="Add" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

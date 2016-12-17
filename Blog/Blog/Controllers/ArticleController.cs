@@ -24,6 +24,7 @@ namespace Blog.Controllers
                 var articles = database.Articles
                     .Include(a => a.Author)
                     .Include(a => a.Tags)
+                    .Include(a => a.Comments)
                     .ToList();
 
                 return View(articles);
@@ -43,6 +44,7 @@ namespace Blog.Controllers
                     .Where(a => a.Id == id)
                     .Include(a => a.Author)
                     .Include(a => a.Tags)
+                    .Include(a=> a.Comments)
                     .First();
 
                 if (article == null)
@@ -253,6 +255,75 @@ namespace Blog.Controllers
             bool isAuthor = article.IsAuthor(this.User.Identity.Name);
 
             return isAdmin || isAuthor;
+        }
+
+        [HttpGet]
+        public ActionResult CreateComment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var database = new BlogDbContext())
+            {
+
+                var article = database.Articles
+                    .Where(a => a.Id == id)
+                    .First();
+
+                if (article == null)
+                {
+                    return HttpNotFound();
+                }
+
+                var model = new ArticleViewModel();
+                model.Id = article.Id;
+                model.Title = article.Title;
+                model.Content = article.Content;
+                model.CategoryId = article.CategoryId;
+                model.Categories = database.Categories
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+                model.Tags = string.Join(", ", article.Tags.Select(t => t.Name));
+
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [ActionName("CreateComment")]
+        public ActionResult CreateCommentComfirmed(ArticleViewModel model)
+        {
+            //if (ModelState.IsValid)
+           // {
+                using (var database = new BlogDbContext())
+                {
+                    var article = database.Articles
+                        .FirstOrDefault(a => a.Id == model.Id);
+
+                    article.Title = model.Title;
+                    article.Content = model.Content;
+                    article.CategoryId = model.CategoryId;
+                    this.SetArticleTags(article, model, database);
+
+                    Comment newComment = new Comment();
+                    newComment.Content = model.NewComment;
+                    newComment.ArticleId = article.Id;
+                    newComment.AuthorId = article.AuthorId;
+
+                    article.Comments.Add(newComment);
+
+                    database.Entry(article).State = EntityState.Modified;
+                    database.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+           // }
+
+            //return View(model);
         }
     }
 }

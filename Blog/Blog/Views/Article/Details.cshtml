@@ -32,6 +32,7 @@
         <footer class="pull-right">
             @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
             {
+                @Html.ActionLink("Add Comment", "CreateComment", "Article", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
                 @Html.ActionLink("Edit", "Edit", "Article", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
                 @Html.ActionLink("Delete", "Delete", "Article", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })
             }
