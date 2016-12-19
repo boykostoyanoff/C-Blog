@@ -11,7 +11,7 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Full Name</th>
                     <th>Email</th>
                     <th>Actions</th>
                 </tr>
@@ -29,7 +29,7 @@
                         @:<tr>
                         }
 
-                        <td>@user.Id</td>
+                        <td>@user.FullName</td>
                         <td>@user.Email</td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", "User", new { @id = user.Id }, null)

@@ -50,11 +50,11 @@
         <footer class="pull-right">
             @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
             {
-                @Html.ActionLink("Add Comment", "CreateComment", "Article", new { @id = Model.Id }, new { @class = "btn btn-primary btn-xs" })
                 @Html.ActionLink("Edit", "Edit", "Article", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
                 @Html.ActionLink("Delete", "Delete", "Article", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })
             }
 
+            @Html.ActionLink("Add Comment", "CreateComment", "Article", new { @id = Model.Id }, new { @class = "btn btn-primary btn-xs" })
             @Html.ActionLink("Back", "Index", "Article", null, new { @class = "btn btn-default btn-xs" })
         </footer>
     }
