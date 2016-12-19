@@ -17,5 +17,7 @@ namespace Blog.Models
         public string AuthorId { get; set; }
 
         public int ArticleId { get; set; }
+
+        public string AuthorFullName { get; set; }
     }
 }

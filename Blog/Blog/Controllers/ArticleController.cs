@@ -312,14 +312,21 @@ namespace Blog.Controllers
                     Comment newComment = new Comment();
                     newComment.Content = model.NewComment;
                     newComment.ArticleId = article.Id;
-                    newComment.AuthorId = article.AuthorId;
+                    newComment.AuthorId = database.Users
+                        .Where(u => u.UserName == this.User.Identity.Name)
+                        .First()
+                        .Id;
+                    newComment.AuthorFullName = database.Users
+                        .Where(u => u.UserName == this.User.Identity.Name)
+                        .First()
+                        .FullName;
 
-                    article.Comments.Add(newComment);
+                article.Comments.Add(newComment);
 
                     database.Entry(article).State = EntityState.Modified;
                     database.SaveChanges();
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", new { id = model.Id });
                 }
            // }
 

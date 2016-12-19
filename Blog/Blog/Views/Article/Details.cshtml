@@ -36,18 +36,7 @@
             </div>
         </div>
 
-        <h3>Comments</h3>
-        foreach (var comment in Model.Comments)
-        {
-            <div class="form-group">
-                @Html.LabelFor(c => comment.Content, "", new { @class = "control-label col-sm-4" })
-                <div class="col-sm-4">
-                    @Html.TextAreaFor(c => comment.Content, new { @class = "form-control", @readonly = "readonly", })
-                </div>
-            </div>
-        }
-
-        <footer class="pull-right">
+        <div class="pull-right">
             @if (User.IsInRole("Admin") || Model.IsAuthor(User.Identity.Name))
             {
                 @Html.ActionLink("Edit", "Edit", "Article", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
@@ -56,6 +45,24 @@
 
             @Html.ActionLink("Add Comment", "CreateComment", "Article", new { @id = Model.Id }, new { @class = "btn btn-primary btn-xs" })
             @Html.ActionLink("Back", "Index", "Article", null, new { @class = "btn btn-default btn-xs" })
-        </footer>
+        </div>
+
+        <h3>Comments</h3>
+        foreach (var comment in Model.Comments)
+        {
+            <div class="pull-left">
+                <small class="author">
+                    --author @comment.AuthorFullName
+                </small>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(c => comment.Content, "", new { @class = "control-label col-sm-4" })
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(c => comment.Content, new { @class = "form-control", @readonly = "readonly", })
+                </div>
+            </div>
+
+        }
     }
 </div>
