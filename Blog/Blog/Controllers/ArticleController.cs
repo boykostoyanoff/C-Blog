@@ -258,6 +258,7 @@ namespace Blog.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult CreateComment(int? id)
         {
             if (id == null)
